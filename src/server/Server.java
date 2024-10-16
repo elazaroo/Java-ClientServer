@@ -16,6 +16,8 @@ public class Server {
 				OutputStream aux = skClient.getOutputStream();
 				DataOutputStream flow = new DataOutputStream(aux);
 				flow.writeUTF("Hello client " + clientNum);
+				flow.writeUTF("Second message");
+				flow.writeUTF("Third message");
 				skClient.close();
 			}
 			System.out.println("Max client reached");

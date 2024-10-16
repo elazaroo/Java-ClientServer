@@ -12,7 +12,9 @@ public class Client {
 			Socket skClient = new Socket(HOST, PORT);
 			InputStream aux = skClient.getInputStream();
 			DataInputStream flow = new DataInputStream(aux);
-			System.out.println(flow.readUTF());
+			do {
+				System.out.println(flow.readUTF());
+			} while (flow.available() > 0);
 			flow.close();
 			skClient.close();
 		} catch (Exception e) {
