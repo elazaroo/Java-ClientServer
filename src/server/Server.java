@@ -2,6 +2,8 @@ package server;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Server {
 	static final int PORT = 5000, maxClients = 3;
@@ -13,11 +15,25 @@ public class Server {
 			for (int clientNum = 0; clientNum < maxClients; clientNum++) {
 				Socket skClient = skServer.accept(); // Create the object
 				System.out.println("Serving client " + clientNum);
-				OutputStream aux = skClient.getOutputStream();
-				DataOutputStream flow = new DataOutputStream(aux);
-				flow.writeUTF("Hello client " + (int) (clientNum + 1));
-				flow.writeUTF("Second message");
-				flow.writeUTF("Third message");
+				InputStream aux = skClient.getInputStream();
+				DataInputStream flow = new DataInputStream(aux);
+				List<Double> numbers = new ArrayList<Double>();
+				do {
+					numbers.add(flow.readDouble());
+				} while (flow.available() > 0);
+				System.out.println(numbers.size() + " numbers recieved.");
+				double sum = 0;
+				for (double num : numbers) {
+					sum += num;
+				}
+				double avg = sum / numbers.size();
+				System.out.println("AVG: " + avg);
+				if (numbers.size() > 0) {
+					OutputStream oAux = skClient.getOutputStream();
+					DataOutputStream oFlow = new DataOutputStream(oAux);
+					oFlow.writeDouble(avg);
+				}
+				flow.close();
 				skClient.close();
 			}
 			System.out.println("Max client reached");
