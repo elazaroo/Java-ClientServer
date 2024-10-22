@@ -13,11 +13,16 @@ public class Server {
 			for (int clientNum = 0; clientNum < maxClients; clientNum++) {
 				Socket skClient = skServer.accept(); // Create the object
 				System.out.println("Serving client " + clientNum);
-				OutputStream aux = skClient.getOutputStream();
-				DataOutputStream flow = new DataOutputStream(aux);
-				flow.writeUTF("Hello client " + (int) (clientNum + 1));
-				flow.writeUTF("Second message");
-				flow.writeUTF("Third message");
+				InputStream aux = skClient.getInputStream();
+				DataInputStream flow = new DataInputStream(aux);
+				String clientName = flow.readUTF();
+				System.out.println("Sending hello to " + clientName);
+				if (clientName != "") {
+					OutputStream oAux = skClient.getOutputStream();
+					DataOutputStream oFlow = new DataOutputStream(oAux);
+					oFlow.writeUTF("Hello " + clientName);
+				}
+				flow.close();
 				skClient.close();
 			}
 			System.out.println("Max client reached");

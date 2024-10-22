@@ -10,11 +10,12 @@ public class Client {
 	public Client() {
 		try {
 			Socket skClient = new Socket(HOST, PORT);
-			InputStream aux = skClient.getInputStream();
-			DataInputStream flow = new DataInputStream(aux);
-			do {
-				System.out.println(flow.readUTF());
-			} while (flow.available() > 0);
+			OutputStream aux = skClient.getOutputStream();
+			DataOutputStream flow = new DataOutputStream(aux);
+			flow.writeUTF("Eneko");
+			InputStream iAux = skClient.getInputStream();
+			DataInputStream iFlow = new DataInputStream(iAux);
+			System.out.println(iFlow.readUTF());
 			flow.close();
 			skClient.close();
 		} catch (Exception e) {
