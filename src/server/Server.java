@@ -15,7 +15,7 @@ public class Server {
 				System.out.println("Serving client " + clientNum);
 				OutputStream aux = skClient.getOutputStream();
 				DataOutputStream flow = new DataOutputStream(aux);
-				flow.writeUTF("Hello client " + clientNum);
+				flow.writeUTF("Hello client " + (int) (clientNum + 1));
 				flow.writeUTF("Second message");
 				flow.writeUTF("Third message");
 				skClient.close();
