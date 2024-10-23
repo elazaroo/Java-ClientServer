@@ -18,14 +18,14 @@ public class Server {
 				System.out.println("Serving client " + clientNum);
 				
 				Socket skClient = skServer.accept();				
-				InputStream aux = skClient.getInputStream();
-				DataInputStream flow = new DataInputStream(aux);
+				InputStream iAux = skClient.getInputStream();
+				DataInputStream iFlow = new DataInputStream(iAux);
 				
 				// Declare ArrayList numbers where doubles will be stored
 				List<Double> numbers = new ArrayList<Double>();
 				do {
-					numbers.add(flow.readDouble());
-				} while (flow.available() > 0);
+					numbers.add(iFlow.readDouble());
+				} while (iFlow.available() > 0);
 				System.out.println(numbers.size() + " numbers recieved.");
 				
 				// Use for (each number of ArrayList) and sum in a variable
@@ -46,7 +46,7 @@ public class Server {
 					oFlow.writeDouble(avg);
 					oFlow.close();
 				}
-				flow.close();
+				iFlow.close();
 				skClient.close();
 			}
 			System.out.println("Max client reached");
